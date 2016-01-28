@@ -23,3 +23,38 @@ jsDependencies +=
 
 lazy val root = project.in(file("."))
   .enablePlugins(ScalaJSPlugin)
+
+// Deployment configuration
+publishMavenStyle := true
+publishArtifact in Test := false
+pomIncludeRepository := { _ => false }
+
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+}
+
+pomExtra := {
+  <url>https://github.com/UdashFramework/scala-js-jquery</url>
+  <licenses>
+    <license>
+      <name>GPL-3.0</name>
+      <url>http://opensource.org/licenses/GPL-3.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>git@github.com:UdashFramework/scala-js-jquery.git</url>
+    <connection>scm:git@github.com:UdashFramework/scala-js-jquery.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>avsystem</id>
+      <name>AVSystem</name>
+      <url>http://www.avsystem.com/</url>
+    </developer>
+  </developers>
+}
